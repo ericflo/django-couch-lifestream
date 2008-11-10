@@ -5,13 +5,15 @@ from textwrap import dedent
 from django.conf import settings
 
 item_type_date = ViewDefinition(COUCHDB_DESIGN_DOCNAME, 'item_type_date',
-    dedent("""function(doc) {
+    dedent("""
+    function(doc) {
         emit([doc.item_type, doc.couch_lifestream_date], null);
     }
 """))
 
 by_date = ViewDefinition(COUCHDB_DESIGN_DOCNAME, 'by_date',
-    dedent("""function(doc) {
+    dedent("""
+    function(doc) {
         emit(doc.couch_lifestream_date, null);
     }
 """))

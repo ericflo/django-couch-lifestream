@@ -71,8 +71,12 @@ def fetch_pownce_items():
 REDDIT_USERNAME = getattr(settings, 'REDDIT_USERNAME', None)
 
 def fetch_reddit_items():
-    reddit_url = 'http://www.reddit.com/user/%s/comments/.rss' % (REDDIT_USERNAME,)
-    parse_feed(reddit_url, 'reddit-comment', discriminator='link')
+    reddit_like_url = 'http://www.reddit.com/user/%s/liked/.rss' % (REDDIT_USERNAME,)
+    parse_feed(reddit_like_url, 'reddit-like', discriminator='link')
+    reddit_bookmark_url = 'http://www.reddit.com/user/%s/submitted/.rss' % (REDDIT_USERNAME,)
+    parse_feed(reddit_bookmark_url, 'reddit-bookmark', discriminator='link')
+    reddit_comment_url = 'http://www.reddit.com/user/%s/comments/.rss' % (REDDIT_USERNAME,)
+    parse_feed(reddit_comment_url, 'reddit-comment', discriminator='link')
 
 FLICKR_USER_ID = getattr(settings, 'FLICKR_USER_ID', None)
 
@@ -85,6 +89,16 @@ GITHUB_USERNAME = getattr(settings, 'GITHUB_USERNAME', None)
 def fetch_github_items():
     github_url = 'http://github.com/%s.atom' % (GITHUB_USERNAME,)
     parse_feed(github_url, 'github')
+
+DIGG_USERNAME = getattr(settings, 'DIGG_USERNAME', None)
+
+def fetch_digg_items():
+    digg_digg_url = 'http://digg.com/users/%s/history/diggs.rss' % (DIGG_USERNAME,)
+    parse_feed(digg_digg_url, 'digg-digg', discriminator='link')
+    digg_comment_url = 'http://digg.com/users/%s/history/comments.rss' % (DIGG_USERNAME,)
+    parse_feed(digg_comment_url, 'digg-comment', discriminator='link')
+    digg_bookmark_url = 'http://digg.com/users/%s/history/submissions.rss' % (DIGG_USERNAME,)
+    parse_feed(digg_bookmark_url, 'digg-bookmark', discriminator='link')
 
 class Command(NoArgsCommand):
     help = 'Fetch the latest lifestream items and insert them into CouchDB.'
@@ -100,4 +114,6 @@ class Command(NoArgsCommand):
             fetch_flickr_items()
         if GITHUB_USERNAME is not None:
             fetch_github_items()
+        if DIGG_USERNAME is not None:
+            fetch_digg_items()
         print "Finished loading lifestream items."

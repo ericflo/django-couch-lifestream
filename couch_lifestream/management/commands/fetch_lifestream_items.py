@@ -20,7 +20,7 @@ def parse_json(url, item_type, callback, discriminator='id', list_key=None):
     data = json.loads(fetched)
     if list_key:
         data = data[list_key]
-    map_fun = 'function(doc) { emit(doc.id, null); }'
+    map_fun = 'function(doc) { emit(doc.%s, null); }' % (discriminator,)
     for item in map(callback, data):
         item['item_type'] = item_type
         if len(db.query(map_fun, key=item[discriminator])) == 0:

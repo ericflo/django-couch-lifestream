@@ -80,6 +80,12 @@ def fetch_flickr_items():
     flickr_url = 'http://api.flickr.com/services/feeds/photos_public.gne?format=atom&id=%s' % (FLICKR_USER_ID,)
     parse_feed(flickr_url, 'flickr')
 
+GITHUB_USERNAME = getattr(settings, 'GITHUB_USERNAME', None)
+
+def fetch_github_items():
+    github_url = 'http://github.com/%s.atom' % (GITHUB_USERNAME,)
+    parse_feed(github_url, 'github')
+
 class Command(NoArgsCommand):
     help = 'Fetch the latest lifestream items and insert them into CouchDB.'
     
@@ -92,4 +98,6 @@ class Command(NoArgsCommand):
             fetch_reddit_items()
         if FLICKR_USER_ID is not None:
             fetch_flickr_items()
+        if GITHUB_USERNAME is not None:
+            fetch_github_items()
         print "Finished loading lifestream items."

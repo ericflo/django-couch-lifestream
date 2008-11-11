@@ -1,0 +1,1 @@
+{% extends "couch_lifestream/base_item.html" %}{% load couch_lifestream_tags %}{% block content %}<a href="http://www.flickr.com/photos/ericflo/" rel="me">Flick&rsquo;d</a>: {{ item.content.0.value|extract_tags:"img"|safe }}{% endblock %}

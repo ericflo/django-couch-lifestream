@@ -1,4 +1,5 @@
 from django.db.models import signals
+from django.contrib.contenttypes.models import ContentType
 from couch_lifestream import models, db, COUCHDB_DESIGN_DOCNAME
 from couchdb.design import ViewDefinition
 from textwrap import dedent
@@ -20,4 +21,9 @@ by_date = ViewDefinition(COUCHDB_DESIGN_DOCNAME, 'by_date',
 
 def create_couchdb_views(app, created_models, verbosity, **kwargs):
     ViewDefinition.sync_many(db, [item_type_date, by_date])
+    ContentType.objects.get_or_create(
+        name='CouchDB Item',
+        app_label='couch_lifestream',
+        model='couchdbitem'
+    )
 signals.post_syncdb.connect(create_couchdb_views, sender=models)

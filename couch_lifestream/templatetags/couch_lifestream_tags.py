@@ -1,5 +1,6 @@
 import re
 from django import template
+from django import forms
 from django.template.loader import render_to_string
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
@@ -50,6 +51,12 @@ class GetIdForDocNode(template.Node):
         context[self.context_var] = doc['_id']
         return ''
 
+def extract_tags(value, arg):
+    from BeautifulSoup import BeautifulSoup
+    soup = BeautifulSoup(value)
+    safe_tags = [s.strip() for s in arg.split()]
+    return u''.join(map(unicode, soup.findAll(safe_tags)))
+
 TWITTER_RE = re.compile('@(\S+)')
 
 def twitterfy(value):
@@ -62,3 +69,4 @@ register.tag('display_lifestream_item', do_display_lifestream_item)
 register.tag('get_id_for_doc', do_get_id_for_doc)
 
 register.filter('twitterfy', twitterfy)
+register.filter('extract_tags', extract_tags)

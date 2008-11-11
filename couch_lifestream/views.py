@@ -1,4 +1,3 @@
-import datetime
 from couch_lifestream import db, COUCHDB_DESIGN_DOCNAME
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -29,7 +28,7 @@ def item(request, id):
     except client.ResourceNotFound:
         raise Http404
     context = {
-        'item': db[id],
+        'item': obj,
     }
     return render_to_response(
         'couch_lifestream/item.html',

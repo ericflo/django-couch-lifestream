@@ -1,1 +1,1 @@
-# Nothing to see here. We're using CouchDB :)
+# Not much to see here. We're using CouchDB :)

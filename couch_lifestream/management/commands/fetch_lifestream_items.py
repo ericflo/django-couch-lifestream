@@ -43,6 +43,51 @@ def fetch_pownce_items():
             db.create(item)
     print "Pownce items fetched"
 
+REDDIT_USERNAME = getattr(settings, 'REDDIT_USERNAME', None)
+
+def fetch_reddit_items():
+    import feedparser
+    print "Fetching Reddit items"
+    d = feedparser.parse('http://www.reddit.com/user/%s/comments/.rss' % (
+        REDDIT_USERNAME,))
+    map_fun = 'function(doc) { emit(doc.link, null); }'
+    for item in map(dict, d['entries']):
+        item['item_type'] = 'reddit-comment'
+        item['couch_lifestream_date'] = datetime.datetime.fromtimestamp(
+            time.mktime(item['updated_parsed']))
+        if len(db.query(map_fun, key=item['link'])) == 0:
+            for (key, val) in item.items():
+                if 'parsed' in key:
+                    del item[key]
+                elif isinstance(val, datetime.datetime):
+                    item[key] = val.isoformat()
+                elif isinstance(val, datetime.date):
+                    item[key] = val.isoformat()
+            db.create(item)
+    print "Reddit items fetched"
+
+FLICKR_USER_ID = getattr(settings, 'FLICKR_USER_ID', None)
+
+def fetch_flickr_items():
+    import feedparser
+    print "Fetching Flickr items"
+    d = feedparser.parse('http://api.flickr.com/services/feeds/photos_public.gne?format=atom&id=%s' % (FLICKR_USER_ID,))
+    map_fun = 'function(doc) { emit(doc.id, null); }'
+    for item in map(dict, d['entries']):
+        item['item_type'] = 'flickr'
+        item['couch_lifestream_date'] = datetime.datetime.fromtimestamp(
+            time.mktime(item['updated_parsed']))
+        if len(db.query(map_fun, key=item['id'])) == 0:
+            for (key, val) in item.items():
+                if 'parsed' in key:
+                    del item[key]
+                elif isinstance(val, datetime.datetime):
+                    item[key] = val.isoformat()
+                elif isinstance(val, datetime.date):
+                    item[key] = val.isoformat()
+            db.create(item)
+    print "Flickr items fetched"
+
 class Command(NoArgsCommand):
     help = 'Fetch the latest lifestream items and insert them into CouchDB.'
     
@@ -51,4 +96,8 @@ class Command(NoArgsCommand):
             fetch_twitter_items()
         if POWNCE_USERNAME is not None:
             fetch_pownce_items()
+        if REDDIT_USERNAME is not None:
+            fetch_reddit_items()
+        if FLICKR_USER_ID is not None:
+            fetch_flickr_items()
         print "Finished loading lifestream items."

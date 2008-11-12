@@ -10,7 +10,7 @@ try:
 except ImportError:
     import json
 
-TWITTER_USERNAME = getattr(settings, 'TWITTER_USERNAME', None)
+from couch_lifestream import USERNAMES as un
 
 ### HELPER FUNCTIONS ###
 
@@ -54,10 +54,8 @@ def fetch_twitter_items():
     def callback(item):
         item['couch_lifestream_date'] = parse(item['created_at']).isoformat()
         return item
-    url = 'http://twitter.com/statuses/user_timeline.json?id=%s' % (TWITTER_USERNAME,)
+    url = 'http://twitter.com/statuses/user_timeline.json?id=%s' % (un['TWITTER'],)
     parse_json(url, 'twitter', callback)
-
-POWNCE_USERNAME = getattr(settings, 'POWNCE_USERNAME', None)
 
 def fetch_pownce_items():
     url = 'http://api.pownce.com/2.0/note_lists/%s.json' % (POWNCE_USERNAME,)
@@ -68,36 +66,28 @@ def fetch_pownce_items():
         return item
     parse_json(url, 'pownce', callback, list_key='notes')
 
-REDDIT_USERNAME = getattr(settings, 'REDDIT_USERNAME', None)
-
 def fetch_reddit_items():
-    reddit_like_url = 'http://www.reddit.com/user/%s/liked/.rss' % (REDDIT_USERNAME,)
+    reddit_like_url = 'http://www.reddit.com/user/%s/liked/.rss' % (un['REDDIT'],)
     parse_feed(reddit_like_url, 'reddit-like', discriminator='link')
-    reddit_bookmark_url = 'http://www.reddit.com/user/%s/submitted/.rss' % (REDDIT_USERNAME,)
+    reddit_bookmark_url = 'http://www.reddit.com/user/%s/submitted/.rss' % (un['REDDIT'],)
     parse_feed(reddit_bookmark_url, 'reddit-bookmark', discriminator='link')
-    reddit_comment_url = 'http://www.reddit.com/user/%s/comments/.rss' % (REDDIT_USERNAME,)
+    reddit_comment_url = 'http://www.reddit.com/user/%s/comments/.rss' % (un['REDDIT'],)
     parse_feed(reddit_comment_url, 'reddit-comment', discriminator='link')
 
-FLICKR_USER_ID = getattr(settings, 'FLICKR_USER_ID', None)
-
 def fetch_flickr_items():
-    flickr_url = 'http://api.flickr.com/services/feeds/photos_public.gne?format=atom&id=%s' % (FLICKR_USER_ID,)
+    flickr_url = 'http://api.flickr.com/services/feeds/photos_public.gne?format=atom&id=%s' % (un['FLICKR'],)
     parse_feed(flickr_url, 'flickr')
 
-GITHUB_USERNAME = getattr(settings, 'GITHUB_USERNAME', None)
-
 def fetch_github_items():
-    github_url = 'http://github.com/%s.atom' % (GITHUB_USERNAME,)
+    github_url = 'http://github.com/%s.atom' % (un['GITHUB'],)
     parse_feed(github_url, 'github')
 
-DIGG_USERNAME = getattr(settings, 'DIGG_USERNAME', None)
-
 def fetch_digg_items():
-    digg_digg_url = 'http://digg.com/users/%s/history/diggs.rss' % (DIGG_USERNAME,)
+    digg_digg_url = 'http://digg.com/users/%s/history/diggs.rss' % (un['DIGG'],)
     parse_feed(digg_digg_url, 'digg-digg', discriminator='link')
-    digg_comment_url = 'http://digg.com/users/%s/history/comments.rss' % (DIGG_USERNAME,)
+    digg_comment_url = 'http://digg.com/users/%s/history/comments.rss' % (un['DIGG'],)
     parse_feed(digg_comment_url, 'digg-comment', discriminator='link')
-    digg_bookmark_url = 'http://digg.com/users/%s/history/submissions.rss' % (DIGG_USERNAME,)
+    digg_bookmark_url = 'http://digg.com/users/%s/history/submissions.rss' % (un['DIGG'],)
     parse_feed(digg_bookmark_url, 'digg-bookmark', discriminator='link')
 
 class Command(NoArgsCommand):

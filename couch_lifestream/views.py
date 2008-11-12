@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.http import Http404
 from couchdb import client
 
-def items(request, service=None):
+def items(request, service=None, extra_context={}):
     kwargs = dict(descending=True)
     if service is None:
         item_type_viewname = '%s/by_date' % (COUCHDB_DESIGN_DOCNAME,)
@@ -16,13 +16,14 @@ def items(request, service=None):
     context = {
         'items': list(lifestream_items),
     }
+    context.update(extra_context)
     return render_to_response(
         'couch_lifestream/list.html',
         context,
         context_instance=RequestContext(request)
     )
 
-def item(request, id):
+def item(request, id, extra_context={}):
     try:
         obj = db[id]
     except client.ResourceNotFound:
@@ -30,6 +31,7 @@ def item(request, id):
     context = {
         'item': obj,
     }
+    context.update(extra_context)
     return render_to_response(
         'couch_lifestream/item.html',
         context,

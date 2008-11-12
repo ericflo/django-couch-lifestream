@@ -26,6 +26,7 @@ class DisplayLifestreamItemNode(template.Node):
         row = self.row.resolve(context)
         item = db[row.id]
         context_with_item = copy(context)
+        print context
         context_with_item['item'] = item
         return render_to_string(
             'couch_lifestream/%s_item.html' % (item['item_type'],),

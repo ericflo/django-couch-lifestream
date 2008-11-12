@@ -1,4 +1,4 @@
 {% extends "couch_lifestream/base_item.html" %}
 {% block content %}
-<a href="http://github.com/ericflo" rel="me">Committed</a>: {{ item.content.0.value|removetags:"div p"|safe }}
+<a href="http://github.com/{{ USERNAMES.GITHUB }}" rel="me">Committed</a>: {{ item.content.0.value|removetags:"div p"|safe }} <a href="{{ item.link }}">&rarr;</a>
 {% endblock %}

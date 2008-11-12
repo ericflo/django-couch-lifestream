@@ -1,4 +1,4 @@
 {% extends "couch_lifestream/base_item.html" %}
 {% block content %}
-<a href="http://digg.com/users/floguy/history/submissions" rel="me">Bookmarked</a>: <a href="{{ item.link }}">{{ item.title }}</a>
+<a href="http://digg.com/users/{{ USERNAMES.DIGG }}/history/submissions" rel="me">Bookmarked</a>: {{ item.title }}<a href="{{ item.link }}">&rarr;</a>
 {% endblock %}

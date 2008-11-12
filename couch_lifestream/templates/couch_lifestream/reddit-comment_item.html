@@ -1,4 +1,4 @@
 {% extends "couch_lifestream/base_item.html" %}
 {% block content %}
-<a href="http://www.reddit.com/user/ericflo/comments/" rel="me">Said</a>: {{ item.summary }}
+<a href="http://www.reddit.com/user/{{ USERNAMES.REDDIT }}/comments/" rel="me">Said</a>: {{ item.summary }}<a href="{{ item.link }}">&rarr;</a>
 {% endblock %}

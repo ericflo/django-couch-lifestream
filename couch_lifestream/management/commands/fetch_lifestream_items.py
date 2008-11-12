@@ -58,7 +58,7 @@ def fetch_twitter_items():
     parse_json(url, 'twitter', callback)
 
 def fetch_pownce_items():
-    url = 'http://api.pownce.com/2.0/note_lists/%s.json' % (POWNCE_USERNAME,)
+    url = 'http://api.pownce.com/2.0/note_lists/%s.json' % (un['POWNCE'],)
     def callback(item):
         y, month, d, h, m, s, wd, jd, ds = time.gmtime(item['timestamp'])
         couch_lifestream_date = datetime.datetime(y, month, d, h, m, s)
@@ -94,16 +94,16 @@ class Command(NoArgsCommand):
     help = 'Fetch the latest lifestream items and insert them into CouchDB.'
     
     def handle_noargs(self, **options):
-        if TWITTER_USERNAME is not None:
+        if un['TWITTER'] is not None:
             fetch_twitter_items()
-        if POWNCE_USERNAME is not None:
+        if un['POWNCE'] is not None:
             fetch_pownce_items()
-        if REDDIT_USERNAME is not None:
+        if un['REDDIT'] is not None:
             fetch_reddit_items()
-        if FLICKR_USER_ID is not None:
+        if un['FLICKR'] is not None:
             fetch_flickr_items()
-        if GITHUB_USERNAME is not None:
+        if un['GITHUB'] is not None:
             fetch_github_items()
-        if DIGG_USERNAME is not None:
+        if un['DIGG'] is not None:
             fetch_digg_items()
         print "Finished loading lifestream items."

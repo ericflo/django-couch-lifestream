@@ -7,7 +7,7 @@ class CouchDBImproperlyConfigured(Exception):
 try:
     HOST = settings.COUCHDB_HOST
 except AttributeError:
-    raise CouchDBImproperlyConfigured("Please ensure that COUCHDB_HOST is " + \
+    raise CouchDBImproperlyConfigured("Please ensure that COUCHDB_HOST is " +
         "set in your settings file.")
 
 DATABASE_NAME = getattr(settings, 'COUCHDB_DATABASE_NAME', 'couch_lifestream')
@@ -20,6 +20,7 @@ REDDIT_USERNAME = getattr(settings, 'REDDIT_USERNAME', None)
 FLICKR_USER_ID = getattr(settings, 'FLICKR_USER_ID', None)
 GITHUB_USERNAME = getattr(settings, 'GITHUB_USERNAME', None)
 DIGG_USERNAME = getattr(settings, 'DIGG_USERNAME', None)
+YOUTUBE_USERNAME = getattr(settings, 'YOUTUBE_USERNAME', None)
 
 USERNAMES = dict(
     TWITTER=TWITTER_USERNAME,
@@ -28,15 +29,12 @@ USERNAMES = dict(
     FLICKR=FLICKR_USER_ID,
     GITHUB=GITHUB_USERNAME,
     DIGG=DIGG_USERNAME,
+    YOUTUBE=YOUTUBE_USERNAME,
 )
 
-if not hasattr(settings, 'couchdb_server'):
-    server = client.Server(HOST)
-    settings.couchdb_server = server
+server = client.Server(HOST)
 
-if not hasattr(settings, 'couchdb_db'):
-    try:
-        db = server.create(DATABASE_NAME)
-    except client.ResourceConflict:
-        db = server[DATABASE_NAME]
-    settings.couchdb_db = db
+try:
+    db = server.create(DATABASE_NAME)
+except (client.ResourceConflict, client.ServerError):
+    db = server[DATABASE_NAME]

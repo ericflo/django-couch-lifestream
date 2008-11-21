@@ -1,0 +1,4 @@
+{% extends "couch_lifestream/base_item.html" %}
+{% block content %}
+<a href="http://www.youtube.com/profile_favorites?user={{ USERNAMES.YOUTUBE }}" rel="me">Posted</a>: <object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/{{ item.links.0.href|slice:"31:" }}&hl=en&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/{{ item.links.0.href|slice:"31:" }}&hl=en&fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object><a href="{{ item.link }}&hl=en&fs=1">&rarr;</a>
+{% endblock %}

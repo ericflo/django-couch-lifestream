@@ -90,6 +90,12 @@ def fetch_digg_items():
     digg_bookmark_url = 'http://digg.com/users/%s/history/submissions.rss' % (un['DIGG'],)
     parse_feed(digg_bookmark_url, 'digg-bookmark', discriminator='link')
 
+def fetch_youtube_items():
+    youtube_post_url = 'http://gdata.youtube.com/feeds/base/users/%s/uploads?alt=atom' % (un['YOUTUBE'],)
+    parse_feed(youtube_post_url, 'youtube-post')
+    youtube_favorite_url = 'http://gdata.youtube.com/feeds/base/users/%s/favorites?alt=atom' % (un['YOUTUBE'],)
+    parse_feed(youtube_favorite_url, 'youtube-favorite')
+
 class Command(NoArgsCommand):
     help = 'Fetch the latest lifestream items and insert them into CouchDB.'
     
@@ -106,4 +112,6 @@ class Command(NoArgsCommand):
             fetch_github_items()
         if un['DIGG'] is not None:
             fetch_digg_items()
+        if un['YOUTUBE'] is not None:
+            fetch_youtube_items()
         print "Finished loading lifestream items."

@@ -104,6 +104,12 @@ def fetch_pandora_items():
     pandora_bookmarks_url = 'http://feeds.pandora.com/feeds/people/%s/favorites.xml?max=10' % (un['PANDORA'],)
     parse_feed(pandora_bookmarks_url, 'pandora-bookmark')
 
+def fetch_readernaut_items():
+    readernaut_books_url = 'http://readernaut.com/rss/%s/books/' % (un['READERNAUT'],)
+    parse_feed(readernaut_books_url, 'readernaut-book')
+    readernaut_notes_url = 'http://readernaut.com/rss/%s/notes/' % (un['READERNAUT'],)
+    parse_feed(readernaut_notes_url, 'readernaut-note')
+
 class Command(NoArgsCommand):
     help = 'Fetch the latest lifestream items and insert them into CouchDB.'
     
@@ -126,4 +132,6 @@ class Command(NoArgsCommand):
             fetch_lastfm_items()
         if un['PANDORA'] is not None:
             fetch_pandora_items()
+        if un['READERNAUT'] is not None:
+            fetch_readernaut_items()
         print "Finished loading lifestream items."

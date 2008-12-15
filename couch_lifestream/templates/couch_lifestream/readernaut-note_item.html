@@ -1,0 +1,4 @@
+{% extends "couch_lifestream/base_item.html" %}
+{% block content %}
+<a href="http://readernaut.com/{{ USERNAMES.READERNAUT }}/notes/" rel="me">Noted</a>: {{ item.summary_detail.value|striptags }} <a href="{{ item.link }}">&rarr;</a>
+{% endblock %}

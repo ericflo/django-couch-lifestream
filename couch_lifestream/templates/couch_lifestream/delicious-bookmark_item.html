@@ -1,0 +1,4 @@
+{% extends "couch_lifestream/base_item.html" %}
+{% block content %}
+<a href="http://delicious.com/{{ USERNAMES.DELICIOUS }}" rel="me">Bookmarked</a>: {{ item.title }} <a href="{{ item.comments }}">&rarr;</a>
+{% endblock %}

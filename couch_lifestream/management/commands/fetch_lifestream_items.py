@@ -110,6 +110,10 @@ def fetch_readernaut_items():
     readernaut_notes_url = 'http://readernaut.com/rss/%s/notes/' % (un['READERNAUT'],)
     parse_feed(readernaut_notes_url, 'readernaut-note')
 
+def fetch_delicious_items():
+    delicious_bookmark_url = 'http://feeds.delicious.com/v2/rss/%s?count=15' % (un['DELICIOUS'],)
+    parse_feed(delicious_bookmark_url, 'delicious-bookmark', discriminator='comments')
+
 class Command(NoArgsCommand):
     help = 'Fetch the latest lifestream items and insert them into CouchDB.'
     
@@ -134,4 +138,6 @@ class Command(NoArgsCommand):
             fetch_pandora_items()
         if un['READERNAUT'] is not None:
             fetch_readernaut_items()
+        if un['DELICIOUS'] is not None:
+            fetch_delicious_items()
         print "Finished loading lifestream items."

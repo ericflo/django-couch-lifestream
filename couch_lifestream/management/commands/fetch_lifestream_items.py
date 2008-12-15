@@ -114,6 +114,10 @@ def fetch_delicious_items():
     delicious_bookmark_url = 'http://feeds.delicious.com/v2/rss/%s?count=15' % (un['DELICIOUS'],)
     parse_feed(delicious_bookmark_url, 'delicious-bookmark', discriminator='comments')
 
+def fetch_disqus_items():
+    disqus_comment_url = 'http://disqus.com/people/%s/comments.rss' % (un['DISQUS'],)
+    parse_feed(disqus_comment_url, 'disqus-comment', discriminator='link')
+
 class Command(NoArgsCommand):
     help = 'Fetch the latest lifestream items and insert them into CouchDB.'
     
@@ -140,4 +144,6 @@ class Command(NoArgsCommand):
             fetch_readernaut_items()
         if un['DELICIOUS'] is not None:
             fetch_delicious_items()
+        if un['DISQUS'] is not None:
+            fetch_disqus_items()
         print "Finished loading lifestream items."

@@ -57,15 +57,6 @@ def fetch_twitter_items():
     url = 'http://twitter.com/statuses/user_timeline.json?id=%s' % (un['TWITTER'],)
     parse_json(url, 'twitter', callback)
 
-def fetch_pownce_items():
-    url = 'http://api.pownce.com/2.0/note_lists/%s.json' % (un['POWNCE'],)
-    def callback(item):
-        y, month, d, h, m, s, wd, jd, ds = time.gmtime(item['timestamp'])
-        couch_lifestream_date = datetime.datetime(y, month, d, h, m, s)
-        item['couch_lifestream_date'] = couch_lifestream_date.isoformat()
-        return item
-    parse_json(url, 'pownce', callback, list_key='notes')
-
 def fetch_reddit_items():
     reddit_like_url = 'http://www.reddit.com/user/%s/liked/.rss' % (un['REDDIT'],)
     parse_feed(reddit_like_url, 'reddit-like', discriminator='link')
@@ -124,8 +115,6 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         if un['TWITTER'] is not None:
             fetch_twitter_items()
-        if un['POWNCE'] is not None:
-            fetch_pownce_items()
         if un['REDDIT'] is not None:
             fetch_reddit_items()
         if un['FLICKR'] is not None:

@@ -96,6 +96,10 @@ def fetch_youtube_items():
     youtube_favorite_url = 'http://gdata.youtube.com/feeds/base/users/%s/favorites?alt=atom' % (un['YOUTUBE'],)
     parse_feed(youtube_favorite_url, 'youtube-favorite')
 
+def fetch_lastfm_items():
+    lastfm_tracks_url = 'http://ws.audioscrobbler.com/1.0/user/floguy/recenttracks.rss'
+    parse_feed(lastfm_tracks_url, 'lastfm-recent')
+
 class Command(NoArgsCommand):
     help = 'Fetch the latest lifestream items and insert them into CouchDB.'
     
@@ -114,4 +118,6 @@ class Command(NoArgsCommand):
             fetch_digg_items()
         if un['YOUTUBE'] is not None:
             fetch_youtube_items()
+        if un['LASTFM'] is not None:
+            fetch_lastfm_items()
         print "Finished loading lifestream items."

@@ -21,6 +21,7 @@ FLICKR_USER_ID = getattr(settings, 'FLICKR_USER_ID', None)
 GITHUB_USERNAME = getattr(settings, 'GITHUB_USERNAME', None)
 DIGG_USERNAME = getattr(settings, 'DIGG_USERNAME', None)
 YOUTUBE_USERNAME = getattr(settings, 'YOUTUBE_USERNAME', None)
+LASTFM_USERNAME = getattr(settings, 'LASTFM_USERNAME', None)
 
 USERNAMES = dict(
     TWITTER=TWITTER_USERNAME,
@@ -30,6 +31,7 @@ USERNAMES = dict(
     GITHUB=GITHUB_USERNAME,
     DIGG=DIGG_USERNAME,
     YOUTUBE=YOUTUBE_USERNAME,
+    LASTFM=LASTFM_USERNAME,
 )
 
 server = client.Server(HOST)

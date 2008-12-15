@@ -1,0 +1,4 @@
+{% extends "couch_lifestream/base_item.html" %}
+{% block content %}
+<a href="http://www.last.fm/user/{{ USERNAMES.LASTFM }}/tracks" rel="me">Listened To</a>: {{ item.title }}<a href="{{ item.link }}">&rarr;</a>
+{% endblock %}

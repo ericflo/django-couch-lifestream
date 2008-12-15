@@ -1,0 +1,4 @@
+{% extends "couch_lifestream/base_item.html" %}
+{% block content %}
+<a href="http://pownce.com/{{ USERNAMES.POWNCE }}" rel="me">Pownced</a>: {{ item.body }} <a href="{{ item.permalink }}">&rarr;</a>
+{% endblock %}

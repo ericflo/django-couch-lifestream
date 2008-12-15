@@ -1,0 +1,4 @@
+{% extends "couch_lifestream/base_item.html" %}
+{% block content %}
+<a href="http://www.pandora.com/people/{{ USERNAMES.PANDORA }}" rel="me">Bookmarked</a>: {{ item.content.0.value|safe }}
+{% endblock %}

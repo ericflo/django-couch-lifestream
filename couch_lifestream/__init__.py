@@ -22,6 +22,7 @@ GITHUB_USERNAME = getattr(settings, 'GITHUB_USERNAME', None)
 DIGG_USERNAME = getattr(settings, 'DIGG_USERNAME', None)
 YOUTUBE_USERNAME = getattr(settings, 'YOUTUBE_USERNAME', None)
 LASTFM_USERNAME = getattr(settings, 'LASTFM_USERNAME', None)
+PANDORA_USERNAME = getattr(settings, 'PANDORA_USERNAME', None)
 
 USERNAMES = dict(
     TWITTER=TWITTER_USERNAME,
@@ -32,6 +33,7 @@ USERNAMES = dict(
     DIGG=DIGG_USERNAME,
     YOUTUBE=YOUTUBE_USERNAME,
     LASTFM=LASTFM_USERNAME,
+    PANDORA=PANDORA_USERNAME,
 )
 
 server = client.Server(HOST)

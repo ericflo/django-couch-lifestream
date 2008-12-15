@@ -97,8 +97,12 @@ def fetch_youtube_items():
     parse_feed(youtube_favorite_url, 'youtube-favorite')
 
 def fetch_lastfm_items():
-    lastfm_tracks_url = 'http://ws.audioscrobbler.com/1.0/user/floguy/recenttracks.rss'
+    lastfm_tracks_url = 'http://ws.audioscrobbler.com/1.0/user/%s/recenttracks.rss' % (un['LASTFM'],)
     parse_feed(lastfm_tracks_url, 'lastfm-recent')
+
+def fetch_pandora_items():
+    pandora_bookmarks_url = 'http://feeds.pandora.com/feeds/people/%s/favorites.xml?max=10' % (un['PANDORA'],)
+    parse_feed(pandora_bookmarks_url, 'pandora-bookmark')
 
 class Command(NoArgsCommand):
     help = 'Fetch the latest lifestream items and insert them into CouchDB.'
@@ -120,4 +124,6 @@ class Command(NoArgsCommand):
             fetch_youtube_items()
         if un['LASTFM'] is not None:
             fetch_lastfm_items()
+        if un['PANDORA'] is not None:
+            fetch_pandora_items()
         print "Finished loading lifestream items."
